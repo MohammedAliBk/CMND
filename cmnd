@@ -3,9 +3,20 @@
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# Variables
+COMMANDS_DIR="/data/data/com.termux/files/home/.commands"
+BIN_DIR="/data/data/com.termux/files/usr/bin"
+
+# Check if .commands directory exists, if not, create it
+if [ ! -d "$COMMANDS_DIR" ]; then
+    mkdir -p "$COMMANDS_DIR"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to create .commands directory${NC}"
+        exit 1
+    fi
+fi
 
 # Check if argument is provided
 if [ -z "$1" ]; then
@@ -15,52 +26,26 @@ fi
 
 file=$1
 
-# Displaying file name
-echo -e "${BLUE}---------------------------------------------${NC}"
-echo -e "${BLUE}[INFO] Command File: ${file}${NC}"
-echo -e "${BLUE}---------------------------------------------${NC}"
-
-# Making the file executable
-echo -e "${YELLOW}[INFO] Setting executable permissions for the file...${NC}"
+# Set executable permissions
 chmod +x "$file"
-echo -e "${GREEN}[DONE] Permissions set successfully!${NC}"
-
-# Checking if the file is executable
-if [ -x "$file" ]; then
-    echo -e "${GREEN}[SUCCESS] The file is executable.${NC}"
-else
-    echo -e "${YELLOW}[WARNING] The file is NOT executable.${NC}"
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Permissions${NC}"
     exit 1
 fi
 
-# Moving the file to the .commands directory
-echo -e "${YELLOW}[INFO] Moving the file to the .commands directory...${NC}"
-mv "$file" "/data/data/com.termux/files/home/.commands/"
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}[DONE] File moved successfully!${NC}"
-else
-    echo -e "${RED}[ERROR] Failed to move the file.${NC}"
+# Move the file to .commands directory
+mv "$file" "$COMMANDS_DIR/"
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Transport${NC}"
     exit 1
 fi
 
-# Creating a symlink in /data/data/com.termux/files/usr/bin
-echo -e "${YELLOW}[INFO] Creating a symbolic link in /usr/bin...${NC}"
-ln -sf "/data/data/com.termux/files/home/.commands/$file" "/data/data/com.termux/files/usr/bin/$file"
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}[DONE] Symlink created successfully!${NC}"
-else
-    echo -e "${RED}[ERROR] Failed to create the symlink.${NC}"
+# Create symbolic link in /usr/bin
+ln -sf "$COMMANDS_DIR/$file" "$BIN_DIR/$file"
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Linking${NC}"
     exit 1
 fi
 
-# Check if the symlink exists in /usr/bin
-if [ -L "/data/data/com.termux/files/usr/bin/$file" ]; then
-    echo -e "${GREEN}[CHECK] Symlink exists in /usr/bin.${NC}"
-else
-    echo -e "${RED}[CHECK] Symlink does NOT exist in /usr/bin.${NC}"
-fi
-
-# Final message
-echo -e "${BLUE}---------------------------------------------${NC}"
-echo -e "${BLUE}[INFO] Command is ready and available for use!${NC}"
-echo -e "${BLUE}---------------------------------------------${NC}"
+# If all steps are successful
+echo -e "${GREEN}All set${NC}"
