@@ -1,18 +1,30 @@
 #!/bin/bash
 
-bin_path="data/data/com.termux/files/usr/bin$0"
+# Get the name of the script without the path
+script_name=$(basename "$0")
+
+# Define paths
+bin_path="/data/data/com.termux/files/usr/bin/$script_name"
 cmnd_path="/data/data/com.termux/files/home/cmnd"
-tst_commands_path="/data/data/com.termux/files/home/.commands$0"
+tst_commands_path="/data/data/com.termux/files/home/.commands/$script_name"
 
-echo "hi this is the test subject and cmnd command is working"
+echo "Hi, this is the test subject and the cmnd command is working."
 
-cp $bin_path $cmnd_path
-rm $tst_commands_path 
-rm $bin_path
+# Copy the script to the cmnd directory
+cp "$bin_path" "$cmnd_path"
+if [ $? -ne 0 ]; then
+    echo "Failed to copy the script to $cmnd_path"
+    exit 1
+fi
 
+# Remove the test commands path
+rm "$tst_commands_path"
+if [ $? -ne 0 ]; then
+    echo "Failed to remove $tst_commands_path"
+fi
 
-
-#cp: cannot stat 'data/data/com.termux/files/usr/bin/data/data/com.termux/files/usr/bin/tst': No such file or directory
-#rm: cannot remove '/data/data/com.termux/files/home/.commands/data/data/com.termux/files/usr/bin/tst': No such file or directory
-#rm: cannot remove 'data/data/com.termux/files/usr/bin/data/data/com.termux/files/usr/bin/tst': No such file or directory
-
+# Remove the binary path
+rm "$bin_path"
+if [ $? -ne 0 ]; then
+    echo "Failed to remove $bin_path"
+fi
