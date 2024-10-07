@@ -18,7 +18,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove the test commands path
-if [ -e "$test_commands_path" ]; then  # التحقق من وجود الملف قبل الحذف
+if [ -e "$test_commands_path" ]; then  
     rm "$test_commands_path"
     if [ $? -ne 0 ]; then
         echo -e "${RED}Failed to remove $test_commands_path${NC}"
@@ -28,7 +28,7 @@ else
 fi
 
 # Remove the binary path
-if [ -e "$bin_path" ]; then  # التحقق من وجود الملف قبل الحذف
+if [ -e "$bin_path" ]; then  
     rm "$bin_path"
     if [ $? -ne 0 ]; then
         echo -e "${RED}Failed to remove $bin_path${NC}"
