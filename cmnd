@@ -6,8 +6,8 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 # Variables
-COMMANDS_DIR="/data/data/com.termux/files/home/.commands"
-BIN_DIR="/data/data/com.termux/files/usr/bin"
+COMMANDS_DIR="$HOME/.commands"  # استخدام $HOME لتحديد مسار الدليل
+BIN_DIR="$PREFIX/bin"  # استخدام $PREFIX ليكون المسار الافتراضي للـ bin في Termux
 
 # Check if .commands directory exists, if not, create it
 if [ ! -d "$COMMANDS_DIR" ]; then
@@ -29,23 +29,23 @@ file=$1
 # Set executable permissions
 chmod +x "$file"
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Permissions${NC}"
+    echo -e "${RED}Failed to set permissions for $file${NC}"
     exit 1
 fi
 
 # Move the file to .commands directory
 mv "$file" "$COMMANDS_DIR/"
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Transport${NC}"
+    echo -e "${RED}Failed to move the file to $COMMANDS_DIR${NC}"
     exit 1
 fi
 
-# Create symbolic link in /usr/bin
+# Create symbolic link in Termux's bin directory
 ln -sf "$COMMANDS_DIR/$file" "$BIN_DIR/$file"
 if [ $? -ne 0 ]; then
-    echo -e "${RED}Linking${NC}"
+    echo -e "${RED}Failed to create a symbolic link in $BIN_DIR${NC}"
     exit 1
 fi
 
 # If all steps are successful
-echo -e "${GREEN}All set${NC}"
+echo -e "${GREEN}All set!${NC}"
