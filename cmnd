@@ -20,7 +20,7 @@ fi
 
 # Check if argument is provided
 if [ -z "$1" ]; then
-    echo -e "${RED}[ERROR] Please provide a file name.${NC}"
+    echo -e "${RED}[ERROR] Please provide a file name,Usage cmnd [filename].${NC}"
     exit 1
 fi
 
