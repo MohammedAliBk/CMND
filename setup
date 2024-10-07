@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Variables
+COMMANDS_DIR="/data/data/com.termux/files/home/.commands"
+BIN_DIR="/data/data/com.termux/files/usr/bin"
+CMND_PATH="/data/data/com.termux/files/home/cmnd"  # المسار للمجلد اللي فيه السكريبت
+
+# Check if .commands directory exists, if not, create it
+if [ ! -d "$COMMANDS_DIR" ]; then
+    mkdir -p "$COMMANDS_DIR"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to create .commands directory${NC}"
+        exit 1
+    fi
+fi
+
+# Check if the command script already exists in the cmnd directory
+if [ ! -e "$CMND_PATH/$SCRIPT_NAME" ]; then
+    echo -e "${RED}The command script does not exist in $CMND_PATH.${NC}"
+    exit 1
+fi
+
+# Create symbolic link in /usr/bin from the existing command script
+ln -sf "$CMND_PATH/$SCRIPT_NAME" "$BIN_DIR/$SCRIPT_NAME"
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Failed to create a symbolic link in $BIN_DIR${NC}"
+    exit 1
+fi
+
+# If all steps are successful
+echo -e "${GREEN}Setup completed successfully!${NC}"
