@@ -9,7 +9,7 @@ NC='\033[0m' # No Color
 COMMANDS_DIR="/data/data/com.termux/files/home/.commands"
 BIN_DIR="/data/data/com.termux/files/usr/bin"
 CMND_PATH="/data/data/com.termux/files/home/cmnd"  # المسار للمجلد اللي فيه السكريبت
-
+SCRIPT_NAME="cmnd"
 # Check if .commands directory exists, if not, create it
 if [ ! -d "$COMMANDS_DIR" ]; then
     mkdir -p "$COMMANDS_DIR"
