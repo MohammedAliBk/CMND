@@ -4,9 +4,9 @@
 script_name=$(basename "$0")
 
 # Define paths
-bin_path="$PREFIX/bin/$script_name"  # استخدام $PREFIX للـ bin في Termux
-cmnd_path="$HOME/cmnd"                # المسار لمجلد cmnd
-tst_commands_path="$HOME/.commands/$script_name"  # المسار لمجلد .commands
+bin_path="$PREFIX/bin/$script_name"
+cmnd_path="$HOME/CMND"
+test_commands_path="$HOME/.commands/$script_name"
 
 echo "Hi, this is the test subject and the cmnd command is working."
 
@@ -18,13 +18,13 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove the test commands path
-if [ -e "$tst_commands_path" ]; then  # التحقق من وجود الملف قبل الحذف
-    rm "$tst_commands_path"
+if [ -e "$test_commands_path" ]; then  # التحقق من وجود الملف قبل الحذف
+    rm "$test_commands_path"
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Failed to remove $tst_commands_path${NC}"
+        echo -e "${RED}Failed to remove $test_commands_path${NC}"
     fi
 else
-    echo "$tst_commands_path does not exist, skipping removal."
+    echo "$test_commands_path does not exist, skipping removal."
 fi
 
 # Remove the binary path

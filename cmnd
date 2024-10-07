@@ -6,8 +6,8 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 # Variables
-COMMANDS_DIR="$HOME/.commands"  # استخدام $HOME لتحديد مسار الدليل
-BIN_DIR="$PREFIX/bin"  # استخدام $PREFIX ليكون المسار الافتراضي للـ bin في Termux
+COMMANDS_DIR="$HOME/.commands"
+BIN_DIR="$PREFIX/bin"
 
 # Check if .commands directory exists, if not, create it
 if [ ! -d "$COMMANDS_DIR" ]; then
